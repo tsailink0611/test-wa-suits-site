@@ -2297,6 +2297,149 @@
             return imageData;
         }
 
+        // 商品削除機能の追加（既存のrenderProducts()を活用）
+        function deleteProduct(productId) {
+            if (confirm('この商品を削除してもよろしいですか？')) {
+                const productIndex = currentData.products.findIndex(p => p.id === productId);
+                if (productIndex !== -1) {
+                    const deletedProduct = currentData.products.splice(productIndex, 1)[0];
+                    saveData();
+                    renderProducts();
+                    showNotification(`「${deletedProduct.title}」を削除しました`, 'success');
+                }
+            }
+        }
+
+        // ギフト関連
+        function renderGifts() {
+            const container = document.getElementById('gifts-list');
+            if (!currentData.gifts || currentData.gifts.length === 0) {
+                container.innerHTML = '<p>ギフトが登録されていません。</p>';
+                return;
+            }
+
+            const html = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>画像</th>
+                            <th>ギフト名</th>
+                            <th>タイプ</th>
+                            <th>価格</th>
+                            <th>ステータス</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${currentData.gifts.map(gift => `
+                            <tr>
+                                <td>
+                                    ${gift.image ?
+                                        `<img src="${getImageUrl(gift.image)}" alt="${gift.title}" style="width: 50px; height: 40px; object-fit: cover; border-radius: 4px;">` :
+                                        '🎁'
+                                    }
+                                </td>
+                                <td>
+                                    <strong>${gift.title}</strong>
+                                    ${gift.featured ? '<span style="color: #d4af37; margin-left: 5px;">⭐</span>' : ''}
+                                </td>
+                                <td>
+                                    <span class="status-badge category-${gift.type}">
+                                        ${gift.type}
+                                    </span>
+                                </td>
+                                <td>¥${gift.price ? gift.price.toLocaleString() : '未設定'}</td>
+                                <td>
+                                    <span class="status-badge ${gift.active ? 'status-active' : 'status-inactive'}">
+                                        ${gift.active ? '販売中' : '非公開'}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-sm btn-edit" onclick="openGiftModal(${gift.id})">編集</button>
+                                        <button class="btn-sm btn-delete" onclick="deleteGift(${gift.id})">削除</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            container.innerHTML = html;
+        }
+
+        function deleteGift(giftId) {
+            if (confirm('このギフトを削除してもよろしいですか？')) {
+                currentData.gifts = currentData.gifts.filter(g => g.id !== giftId);
+                saveData();
+                renderGifts();
+                showNotification('ギフトを削除しました', 'success');
+            }
+        }
+
+        // レビュー関連
+        function renderReviews() {
+            const container = document.getElementById('reviews-list');
+            if (!currentData.reviews || currentData.reviews.length === 0) {
+                container.innerHTML = '<p>お客様の声が登録されていません。</p>';
+                return;
+            }
+
+            const html = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>お客様</th>
+                            <th>評価</th>
+                            <th>商品</th>
+                            <th>投稿日</th>
+                            <th>ステータス</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${currentData.reviews.map(review => `
+                            <tr>
+                                <td>
+                                    <strong>${review.customerName}</strong><br>
+                                    <small>${review.age}代 ${review.gender}</small>
+                                </td>
+                                <td>
+                                    <div style="color: #ffd700;">
+                                        ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}
+                                    </div>
+                                    <small>${review.rating}/5</small>
+                                </td>
+                                <td>${review.product || '未指定'}</td>
+                                <td>${new Date(review.date).toLocaleDateString('ja-JP')}</td>
+                                <td>
+                                    <span class="status-badge ${review.active ? 'status-active' : 'status-inactive'}">
+                                        ${review.active ? '公開中' : '非公開'}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-sm btn-edit" onclick="openReviewModal(${review.id})">編集</button>
+                                        <button class="btn-sm btn-delete" onclick="deleteReview(${review.id})">削除</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            container.innerHTML = html;
+        }
+
+        function deleteReview(reviewId) {
+            if (confirm('このお客様の声を削除してもよろしいですか？')) {
+                currentData.reviews = currentData.reviews.filter(r => r.id !== reviewId);
+                saveData();
+                renderReviews();
+                showNotification('お客様の声を削除しました', 'success');
+            }
+        }
+
         // モーダル外クリックで閉じる
         window.onclick = function(event) {
             const newsModal = document.getElementById('news-modal');
