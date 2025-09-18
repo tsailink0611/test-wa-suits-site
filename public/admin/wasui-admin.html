@@ -820,6 +820,24 @@
                         </form>
                     </div>
                 </div>
+
+                <!-- データエクスポート -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>データエクスポート</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>CMSデータをJSONファイルとしてエクスポートし、フロントエンドサイトで利用できます。</p>
+                        <div style="margin-top: 20px;">
+                            <button type="button" class="btn-primary" onclick="exportAllData()">
+                                <i class="fas fa-download"></i> 全データをエクスポート
+                            </button>
+                            <small style="display: block; margin-top: 10px; color: #666;">
+                                エクスポートされたJSONファイルを<code>/public/data/</code>フォルダにアップロードしてください。
+                            </small>
+                        </div>
+                    </div>
+                </div>
             </section>
         </main>
     </div>
@@ -1425,7 +1443,57 @@
 
         function saveData() {
             localStorage.setItem('wasui_data', JSON.stringify(currentData));
+
+            // 個別データファイルを出力（フロントエンド用）
+            exportDataToJSON();
             updateDashboardStats();
+        }
+
+        // JSONファイルとしてデータをエクスポート（フロントエンド連携用）
+        function exportDataToJSON() {
+            // 個別のJSONファイルを生成
+            const exports = {
+                news: currentData.news || [],
+                products: currentData.products || [],
+                gifts: currentData.gifts || [],
+                reviews: currentData.reviews || [],
+                settings: currentData.settings || {}
+            };
+
+            // 各データタイプのJSONを生成
+            Object.keys(exports).forEach(key => {
+                const jsonString = JSON.stringify(exports[key], null, 2);
+                downloadJSON(jsonString, `wasui_${key}.json`);
+            });
+
+            // 統合データファイルも生成
+            const allData = JSON.stringify(exports, null, 2);
+            downloadJSON(allData, 'wasui_all_data.json');
+        }
+
+        // JSONファイルダウンロード機能
+        function downloadJSON(jsonString, filename) {
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // データエクスポートボタン機能
+        function exportAllData() {
+            if (!currentData || Object.keys(currentData).length === 0) {
+                showNotification('エクスポートするデータがありません', 'error');
+                return;
+            }
+
+            exportDataToJSON();
+            showNotification('データをJSONファイルとしてエクスポートしました', 'success');
         }
 
         // お知らせ関連

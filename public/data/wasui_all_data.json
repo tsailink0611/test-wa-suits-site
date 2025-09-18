@@ -1,0 +1,28 @@
+{
+  "news": [
+    {
+      "id": 1,
+      "title": "七夕水まんじゅう",
+      "category": "新商品",
+      "date": "2025-09-20",
+      "priority": "high",
+      "summary": "季節限定の美しい水まんじゅうです",
+      "content": "職人が一つひとつ丁寧に作る季節限定の水まんじゅう。七夕の夜空をイメージした美しい仕上がりです。",
+      "image": "",
+      "tags": "季節限定,水まんじゅう,七夕",
+      "featured": true,
+      "active": true
+    }
+  ],
+  "products": [],
+  "gifts": [],
+  "reviews": [],
+  "settings": {
+    "siteName": "和粋 WASUI",
+    "phone": "",
+    "address": "",
+    "hours": "",
+    "email": "",
+    "lastUpdated": "2025-09-19T00:00:00.000Z"
+  }
+}

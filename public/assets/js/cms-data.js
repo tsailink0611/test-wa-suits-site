@@ -10,9 +10,18 @@ class WasuiCMS {
         this.setupDataPolling();
     }
 
-    // CMSデータの読み込み
-    loadCMSData() {
+    // CMSデータの読み込み（JSONファイル優先、LocalStorageフォールバック）
+    async loadCMSData() {
         try {
+            // 1. JSONファイルからの読み込みを試行
+            const jsonData = await this.loadFromJSON();
+            if (jsonData) {
+                this.data = jsonData;
+                this.updateWebsite();
+                return;
+            }
+
+            // 2. フォールバック: LocalStorageから読み込み
             const savedData = localStorage.getItem('wasui_data');
             if (savedData) {
                 this.data = JSON.parse(savedData);
@@ -23,6 +32,21 @@ class WasuiCMS {
         } catch (error) {
             console.error('CMSデータの読み込みエラー:', error);
         }
+    }
+
+    // JSONファイルからのデータ読み込み
+    async loadFromJSON() {
+        try {
+            const response = await fetch('/data/wasui_all_data.json');
+            if (response.ok) {
+                const jsonData = await response.json();
+                console.log('JSONファイルからCMSデータを読み込みました');
+                return jsonData;
+            }
+        } catch (error) {
+            console.log('JSONファイルの読み込みに失敗しました、LocalStorageを使用します:', error);
+        }
+        return null;
     }
 
     // 定期的なデータ更新チェック
