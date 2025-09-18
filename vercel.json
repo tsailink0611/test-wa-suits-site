@@ -1,12 +1,20 @@
 {
+  "buildCommand": "echo 'No build required'",
   "outputDirectory": "public",
   "cleanUrls": true,
   "trailingSlash": false,
-  "redirects": [
+  "routes": [
     {
-      "source": "/admin",
-      "destination": "/admin/wasui-admin.html",
-      "permanent": false
+      "src": "/admin",
+      "dest": "/admin/wasui-admin.html"
+    },
+    {
+      "src": "/admin/(.*)",
+      "dest": "/admin/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
     }
   ]
 }
