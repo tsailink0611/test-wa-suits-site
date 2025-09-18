@@ -17,29 +17,62 @@ document.addEventListener('DOMContentLoaded', function() {
     const paginationNext = document.querySelector('.pagination-btn.next');
 
     // CMSからお知らせデータを読み込み
-    function loadNewsFromCMS() {
-        const newsData = localStorage.getItem('wasui_news');
-        if (newsData) {
-            const news = JSON.parse(newsData);
-            const newsGrid = document.querySelector('.news-grid');
+    async function loadNewsFromCMS() {
+        try {
+            // 1. JSONファイルからの読み込みを試行
+            let cmsData = await loadCMSDataFromJSON();
 
-            // 既存の静的ニュースアイテムをクリア
-            newsGrid.innerHTML = '';
+            // 2. フォールバック: LocalStorageから読み込み
+            if (!cmsData) {
+                const savedData = localStorage.getItem('wasui_data');
+                if (savedData) {
+                    cmsData = JSON.parse(savedData);
+                }
+            }
 
-            // CMSデータから動的にお知らせを生成
-            news.forEach((item, index) => {
-                const newsArticle = createNewsArticle(item, index);
-                newsGrid.appendChild(newsArticle);
-            });
+            // お知らせデータが存在する場合のみ処理
+            if (cmsData && cmsData.news && cmsData.news.length > 0) {
+                const newsGrid = document.querySelector('.news-grid');
 
-            // 新しく生成された要素を再取得
-            newsItems = document.querySelectorAll('.news-item');
-            readMoreBtns = document.querySelectorAll('.read-more-btn');
-            shareBtns = document.querySelectorAll('.share-btn');
+                // 既存の静的ニュースアイテムをクリア
+                newsGrid.innerHTML = '';
 
-            // イベントリスナーを再設定
-            setupEventListeners();
+                // CMSデータから動的にお知らせを生成
+                cmsData.news.forEach((item, index) => {
+                    const newsArticle = createNewsArticle(item, index);
+                    newsGrid.appendChild(newsArticle);
+                });
+
+                // 新しく生成された要素を再取得
+                newsItems = document.querySelectorAll('.news-item');
+                readMoreBtns = document.querySelectorAll('.read-more-btn');
+                shareBtns = document.querySelectorAll('.share-btn');
+
+                // イベントリスナーを再設定
+                setupEventListeners();
+
+                console.log('CMSお知らせデータを読み込みました:', cmsData.news.length + '件');
+            } else {
+                console.log('CMSお知らせデータが見つかりません');
+            }
+        } catch (error) {
+            console.error('CMSデータの読み込みエラー:', error);
         }
+    }
+
+    // JSONファイルからCMSデータを読み込み
+    async function loadCMSDataFromJSON() {
+        try {
+            const response = await fetch('/data/wasui_all_data.json');
+            if (response.ok) {
+                const jsonData = await response.json();
+                console.log('JSONファイルからCMSデータを読み込みました');
+                return jsonData;
+            }
+        } catch (error) {
+            console.log('JSONファイルの読み込みに失敗:', error);
+        }
+        return null;
     }
 
     // お知らせ記事HTMLを生成
