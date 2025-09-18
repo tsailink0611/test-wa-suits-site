@@ -1251,10 +1251,10 @@
             initializeWasuiAdmin();
         });
 
-        function initializeWasuiAdmin() {
+        async function initializeWasuiAdmin() {
             checkAuthentication();
             setupEventListeners();
-            loadData();
+            await loadData();
         }
 
         function checkAuthentication() {
@@ -1400,18 +1400,41 @@
             }
         }
 
-        function loadData() {
+        async function loadData() {
             try {
+                // まずJSONファイルから読み込みを試行
+                let jsonData = null;
+                try {
+                    const response = await fetch('../data/wasui_all_data.json');
+                    if (response.ok) {
+                        jsonData = await response.json();
+                        console.log('JSONファイルからデータを読み込みました');
+                    }
+                } catch (jsonError) {
+                    console.log('JSONファイルの読み込みに失敗、LocalStorageを確認します');
+                }
+
+                // LocalStorageからの読み込み
                 const savedData = localStorage.getItem('wasui_data');
-                if (savedData) {
+
+                if (jsonData) {
+                    // JSONファイルのデータがある場合はそれを優先
+                    currentData = jsonData;
+                    // LocalStorageにも保存
+                    localStorage.setItem('wasui_data', JSON.stringify(jsonData));
+                } else if (savedData) {
+                    // JSONファイルがなくてLocalStorageにデータがある場合
                     currentData = JSON.parse(savedData);
                 } else {
+                    // どちらもない場合はデフォルトデータ
                     currentData = getDefaultData();
                 }
+
                 updateDashboardStats();
             } catch (error) {
                 console.error('データ読み込みエラー:', error);
                 currentData = getDefaultData();
+                updateDashboardStats();
             }
         }
 
