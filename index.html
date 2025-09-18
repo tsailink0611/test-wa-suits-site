@@ -6,6 +6,7 @@
     <title>和粋 - 伝統和菓子の専門店</title>
     <meta name="description" content="厳選された素材で作る伝統和菓子の専門店「和粋」。季節の和菓子から贈り物まで、心を込めてお作りしています。">
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/cms-styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -81,21 +82,12 @@
         <div class="container">
             <div class="news-content">
                 <h2 class="news-title">お知らせ</h2>
-                <div class="news-items">
+                <div class="news-items" id="news-list">
+                    <!-- CMSデータから動的に生成されます -->
                     <div class="news-item">
                         <span class="news-date">2024.03.15</span>
                         <span class="news-label info">お知らせ</span>
-                        <p class="news-text">春の新商品「桜餅セット」の販売を開始いたします</p>
-                    </div>
-                    <div class="news-item">
-                        <span class="news-date">2024.03.10</span>
-                        <span class="news-label campaign">キャンペーン</span>
-                        <p class="news-text">ホワイトデーギフト包装無料キャンペーン実施中</p>
-                    </div>
-                    <div class="news-item">
-                        <span class="news-date">2024.03.05</span>
-                        <span class="news-label info">お知らせ</span>
-                        <p class="news-text">配送日時指定サービスの改善について</p>
+                        <p class="news-text">CMSデータを読み込み中...</p>
                     </div>
                 </div>
                 <a href="./pages/news.html" class="news-more">お知らせ一覧へ</a>
@@ -108,50 +100,49 @@
         <div class="container">
             <h2 class="section-title fade-in">商品情報</h2>
             
-            <!-- 季節の和菓子 -->
-            <div class="product-category fade-in">
-                <div class="product-info">
-                    <h3 class="product-title">季節の和菓子</h3>
-                    <p class="product-description">
-                        四季を感じる美しい和菓子を、厳選された素材で丁寧にお作りしています。
-                        その時々の旬の味わいをお楽しみください。
-                    </p>
-                    <a href="./pages/products.html?category=seasonal" class="product-link">商品を見る</a>
-                </div>
-                <div class="product-image">
-                    <div class="product-image-placeholder seasonal"></div>
+            <!-- 動的商品表示エリア -->
+            <div id="products-list" class="products-grid">
+                <!-- CMSデータから動的に生成されます -->
+                <div class="product-category fade-in">
+                    <div class="product-info">
+                        <h3 class="product-title">商品情報を読み込み中...</h3>
+                        <p class="product-description">CMSから最新の商品情報を取得しています。</p>
+                    </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- 伝統の和菓子 -->
-            <div class="product-category fade-in">
-                <div class="product-image">
-                    <div class="product-image-placeholder traditional"></div>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">伝統の和菓子</h3>
-                    <p class="product-description">
-                        創業以来変わらぬ製法で作り続けている伝統的な和菓子。
-                        昔ながらの味わいを現代に受け継いでいます。
-                    </p>
-                    <a href="./pages/products.html?category=traditional" class="product-link">商品を見る</a>
+    <!-- お客様の声 -->
+    <section class="reviews-section">
+        <div class="container">
+            <h2 class="section-title fade-in">お客様の声</h2>
+            <div id="reviews-list" class="reviews-grid">
+                <!-- CMSデータから動的に生成されます -->
+                <div class="review-item fade-in">
+                    <div class="review-content">
+                        <p>お客様の声を読み込み中...</p>
+                    </div>
                 </div>
             </div>
+            <a href="./pages/reviews.html" class="reviews-more">お客様の声一覧へ</a>
+        </div>
+    </section>
 
-            <!-- 贈り物セット -->
-            <div class="product-category fade-in">
-                <div class="product-info">
-                    <h3 class="product-title">贈り物セット</h3>
-                    <p class="product-description">
-                        大切な方への贈り物に最適な詰め合わせセット。
-                        美しい包装でお届けいたします。
-                    </p>
-                    <a href="./pages/gifts.html" class="product-link">商品を見る</a>
-                </div>
-                <div class="product-image">
-                    <div class="product-image-placeholder gift"></div>
+    <!-- ギフトセクション -->
+    <section class="gifts-section">
+        <div class="container">
+            <h2 class="section-title fade-in">ギフト</h2>
+            <div id="gifts-list" class="gifts-grid">
+                <!-- CMSデータから動的に生成されます -->
+                <div class="gift-item fade-in">
+                    <div class="gift-info">
+                        <h3 class="gift-title">ギフト情報を読み込み中...</h3>
+                        <p class="gift-description">CMSから最新のギフト情報を取得しています。</p>
+                    </div>
                 </div>
             </div>
+            <a href="./pages/gifts.html" class="gifts-more">ギフト一覧へ</a>
         </div>
     </section>
 
@@ -280,6 +271,7 @@
         </div>
     </footer>
 
+    <script src="./assets/js/cms-data.js"></script>
     <script src="./assets/js/main.js"></script>
 </body>
 </html>
