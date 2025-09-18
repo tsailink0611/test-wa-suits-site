@@ -1,10 +1,22 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "outputDirectory": ".",
   "routes": [
     {
       "src": "/admin/(.*)",
       "dest": "/admin/$1"
+    }
+  ],
+  "functions": {
+    "admin/*.html": {
+      "includeFiles": "admin/**"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/admin",
+      "destination": "/admin/wasui-admin.html"
     }
   ]
 }

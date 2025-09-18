@@ -42,6 +42,7 @@ build/
 # Only include project files
 !assets/
 !pages/
+!admin/
 !index.html
 !README.md
 !vercel.json
