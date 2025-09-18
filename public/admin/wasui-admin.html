@@ -2375,18 +2375,6 @@
             return imageData;
         }
 
-        // 商品削除機能の追加（既存のrenderProducts()を活用）
-        function deleteProduct(productId) {
-            if (confirm('この商品を削除してもよろしいですか？')) {
-                const productIndex = currentData.products.findIndex(p => p.id === productId);
-                if (productIndex !== -1) {
-                    const deletedProduct = currentData.products.splice(productIndex, 1)[0];
-                    saveData();
-                    renderProducts();
-                    showNotification(`「${deletedProduct.title}」を削除しました`, 'success');
-                }
-            }
-        }
 
         // ギフト関連
         function renderGifts() {
@@ -2446,14 +2434,6 @@
             container.innerHTML = html;
         }
 
-        function deleteGift(giftId) {
-            if (confirm('このギフトを削除してもよろしいですか？')) {
-                currentData.gifts = currentData.gifts.filter(g => g.id !== giftId);
-                saveData();
-                renderGifts();
-                showNotification('ギフトを削除しました', 'success');
-            }
-        }
 
 
         // レビュー関連
@@ -2510,14 +2490,6 @@
             container.innerHTML = html;
         }
 
-        function deleteReview(reviewId) {
-            if (confirm('このお客様の声を削除してもよろしいですか？')) {
-                currentData.reviews = currentData.reviews.filter(r => r.id !== reviewId);
-                saveData();
-                renderReviews();
-                showNotification('お客様の声を削除しました', 'success');
-            }
-        }
 
         // モーダル外クリックで閉じる
         window.onclick = function(event) {
