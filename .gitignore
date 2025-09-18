@@ -1,0 +1,49 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows files
+Desktop.ini
+
+# Node modules
+node_modules/
+npm-debug.log*
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+
+# Log files
+*.log
+
+# Environment files
+.env
+.env.local
+
+# Build outputs
+dist/
+build/
+
+# Parent directory files (ignore everything outside project)
+../
+../../*
+
+# Only include project files
+!assets/
+!pages/
+!index.html
+!README.md
+!vercel.json
+!favicon.ico
+!.gitignore
