@@ -44,8 +44,68 @@
       "active": true
     }
   ],
-  "gifts": [],
-  "reviews": [],
+  "gifts": [
+    {
+      "id": 1,
+      "title": "季節の詰合せギフト",
+      "type": "詰合せ",
+      "price": 3000,
+      "date": "2025-09-19",
+      "summary": "季節の和菓子を詰め合わせたギフトセットです",
+      "description": "四季折々の美しい和菓子を詰め合わせました。大切な方への贈り物や手土産に最適です。",
+      "contents": "水まんじゅう×3、季節の生菓子×4、焼き菓子×2",
+      "image": "",
+      "noshi": true,
+      "wrapping": true,
+      "message": false,
+      "tags": "ギフト,詰合せ,季節限定,贈り物",
+      "featured": true,
+      "active": true
+    },
+    {
+      "id": 2,
+      "title": "特選バウムクーヘンギフト",
+      "type": "ギフトボックス",
+      "price": 2500,
+      "date": "2025-09-18",
+      "summary": "しっとり焼き上げたバウムクーヘンのギフトです",
+      "description": "職人が丁寧に焼き上げたバウムクーヘン。年輪のように重なる生地が美しく、贈り物に喜ばれます。",
+      "contents": "バウムクーヘン（直径15cm）×1",
+      "image": "",
+      "noshi": true,
+      "wrapping": true,
+      "message": true,
+      "tags": "バウムクーヘン,ギフト,焼き菓子",
+      "featured": false,
+      "active": true
+    }
+  ],
+  "reviews": [
+    {
+      "id": 1,
+      "customerName": "田中様",
+      "rating": 5,
+      "date": "2025-09-15",
+      "product": "季節の詰合せギフト",
+      "title": "とても美味しく喜ばれました",
+      "comment": "母の誕生日に贈りました。見た目も美しく、どのお菓子も上品な味で大変喜ばれました。また利用させていただきます。",
+      "verified": true,
+      "featured": true,
+      "active": true
+    },
+    {
+      "id": 2,
+      "customerName": "佐藤様",
+      "rating": 4,
+      "date": "2025-09-10",
+      "product": "七夕水まんじゅう",
+      "title": "涼やかで美味しい",
+      "comment": "暑い夏にぴったりの涼やかなお菓子でした。見た目も美しく、お客様にお出しするのにも最適です。",
+      "verified": true,
+      "featured": false,
+      "active": true
+    }
+  ],
   "settings": {
     "siteName": "和粋 WASUI",
     "phone": "",
