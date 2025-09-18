@@ -1449,6 +1449,40 @@
             updateDashboardStats();
         }
 
+        // ユーティリティ関数（全体で使用）
+        function formatDate(dateString) {
+            if (!dateString) return '日付未設定';
+            const date = new Date(dateString);
+            return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
+        }
+
+        function getProductCategoryClass(category) {
+            const classes = {
+                'バウムクーヘン': 'category-baum',
+                '季節限定品': 'category-seasonal',
+                'ギフトセット': 'category-gift',
+                '焼菓子': 'category-baked',
+                'その他': 'category-other'
+            };
+            return classes[category] || 'category-default';
+        }
+
+        function getGiftTypeClass(type) {
+            const classes = {
+                '詰合せ': 'type-assortment',
+                'ギフトボックス': 'type-box',
+                '季節限定': 'type-seasonal',
+                'のし対応': 'type-noshi',
+                'カスタムギフト': 'type-custom'
+            };
+            return classes[type] || 'type-default';
+        }
+
+        function getStarRating(rating) {
+            if (!rating) return '評価なし';
+            return '★'.repeat(rating) + '☆'.repeat(5 - rating);
+        }
+
         // JSONファイルとしてデータをエクスポート（フロントエンド連携用）
         function exportDataToJSON() {
             // 個別のJSONファイルを生成
@@ -1849,16 +1883,6 @@
             });
         }
 
-        function getProductCategoryClass(category) {
-            const categoryClasses = {
-                'バウムクーヘン': 'category-baum',
-                '季節限定品': 'category-seasonal',
-                'ギフトセット': 'category-gift',
-                '焼菓子': 'category-baked',
-                'その他': 'category-other'
-            };
-            return categoryClasses[category] || 'category-default';
-        }
 
         // ギフト関連
         function openGiftModal(giftId = null) {
@@ -2044,16 +2068,6 @@
             });
         }
 
-        function getGiftTypeClass(type) {
-            const typeClasses = {
-                '詰合せ': 'category-gift',
-                'ギフトボックス': 'category-baum',
-                '季節限定': 'category-seasonal',
-                'のし対応': 'category-baked',
-                'カスタムギフト': 'category-other'
-            };
-            return typeClasses[type] || 'category-default';
-        }
 
         function getGiftServices(gift) {
             const services = [];
@@ -2231,10 +2245,6 @@
             });
         }
 
-        function getStarRating(rating) {
-            const stars = '★'.repeat(parseInt(rating)) + '☆'.repeat(5 - parseInt(rating));
-            return `${stars} (${rating}つ星)`;
-        }
 
         // サイト設定関連
         function loadSettings() {
@@ -2444,6 +2454,7 @@
                 showNotification('ギフトを削除しました', 'success');
             }
         }
+
 
         // レビュー関連
         function renderReviews() {
