@@ -1,17 +1,117 @@
 // News Page JavaScript
 document.addEventListener('DOMContentLoaded', function() {
+    // CMSデータからお知らせを読み込み
+    loadNewsFromCMS();
+
     // DOM要素の取得
     const filterBtns = document.querySelectorAll('.filter-btn');
-    const newsItems = document.querySelectorAll('.news-item');
+    let newsItems = document.querySelectorAll('.news-item');
     const searchInput = document.querySelector('.search-input');
     const searchBtn = document.querySelector('.search-btn');
-    const readMoreBtns = document.querySelectorAll('.read-more-btn');
-    const shareBtns = document.querySelectorAll('.share-btn');
+    let readMoreBtns = document.querySelectorAll('.read-more-btn');
+    let shareBtns = document.querySelectorAll('.share-btn');
     const noticeClose = document.querySelector('.notice-close');
     const newsletterForm = document.querySelector('.newsletter-signup');
     const paginationBtns = document.querySelectorAll('.pagination-number');
     const paginationPrev = document.querySelector('.pagination-btn.prev');
     const paginationNext = document.querySelector('.pagination-btn.next');
+
+    // CMSからお知らせデータを読み込み
+    function loadNewsFromCMS() {
+        const newsData = localStorage.getItem('wasui_news');
+        if (newsData) {
+            const news = JSON.parse(newsData);
+            const newsGrid = document.querySelector('.news-grid');
+
+            // 既存の静的ニュースアイテムをクリア
+            newsGrid.innerHTML = '';
+
+            // CMSデータから動的にお知らせを生成
+            news.forEach((item, index) => {
+                const newsArticle = createNewsArticle(item, index);
+                newsGrid.appendChild(newsArticle);
+            });
+
+            // 新しく生成された要素を再取得
+            newsItems = document.querySelectorAll('.news-item');
+            readMoreBtns = document.querySelectorAll('.read-more-btn');
+            shareBtns = document.querySelectorAll('.share-btn');
+
+            // イベントリスナーを再設定
+            setupEventListeners();
+        }
+    }
+
+    // お知らせ記事HTMLを生成
+    function createNewsArticle(newsItem, index) {
+        const article = document.createElement('article');
+        article.className = 'news-item fade-in';
+        article.setAttribute('data-category', newsItem.category);
+        article.setAttribute('data-date', newsItem.date);
+        article.id = `cms-news-${index}`;
+
+        const imageHtml = newsItem.image ?
+            `<img src="${newsItem.image}" alt="${newsItem.title}" class="news-image-img">` :
+            `<div class="news-image-placeholder ${newsItem.category}"></div>`;
+
+        article.innerHTML = `
+            <div class="news-image">
+                ${imageHtml}
+                <div class="news-label ${newsItem.category}">${getCategoryLabel(newsItem.category)}</div>
+                <div class="news-date">${formatDate(newsItem.date)}</div>
+            </div>
+            <div class="news-content">
+                <h3 class="news-title">${newsItem.title}</h3>
+                <p class="news-excerpt">${newsItem.summary || newsItem.content.substring(0, 100) + '...'}</p>
+                <div class="news-meta">
+                    <span class="news-author">和粋 WASUI</span>
+                    <span class="news-views">閲覧数: ${Math.floor(Math.random() * 500) + 50}</span>
+                </div>
+                <div class="news-actions">
+                    <button class="read-more-btn" data-news-id="cms-news-${index}">続きを読む</button>
+                    <button class="share-btn" data-news-id="cms-news-${index}">シェア</button>
+                </div>
+            </div>
+        `;
+
+        return article;
+    }
+
+    // カテゴリーラベルを取得
+    function getCategoryLabel(category) {
+        const labels = {
+            'news': 'お知らせ',
+            'campaign': 'キャンペーン',
+            'event': 'イベント',
+            'product': '新商品'
+        };
+        return labels[category] || 'お知らせ';
+    }
+
+    // 日付フォーマット
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
+    }
+
+    // イベントリスナーを設定
+    function setupEventListeners() {
+        // 続きを読むボタン
+        document.querySelectorAll('.read-more-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const newsId = this.dataset.newsId;
+                showNewsDetail(newsId);
+            });
+        });
+
+        // シェアボタン
+        document.querySelectorAll('.share-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const newsId = this.dataset.newsId;
+                shareNews(newsId);
+            });
+        });
+    }
 
     // 現在のフィルターと検索状態
     let currentFilter = 'all';
