@@ -40,11 +40,7 @@ build/
 ../../*
 
 # Only include project files
-!assets/
-!pages/
-!admin/
-!index.html
+!public/
 !README.md
 !vercel.json
-!favicon.ico
 !.gitignore

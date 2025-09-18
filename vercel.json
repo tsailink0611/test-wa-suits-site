@@ -1,22 +1,12 @@
 {
+  "outputDirectory": "public",
   "cleanUrls": true,
   "trailingSlash": false,
-  "outputDirectory": ".",
-  "routes": [
-    {
-      "src": "/admin/(.*)",
-      "dest": "/admin/$1"
-    }
-  ],
-  "functions": {
-    "admin/*.html": {
-      "includeFiles": "admin/**"
-    }
-  },
-  "rewrites": [
+  "redirects": [
     {
       "source": "/admin",
-      "destination": "/admin/wasui-admin.html"
+      "destination": "/admin/wasui-admin.html",
+      "permanent": false
     }
   ]
 }
